@@ -2,6 +2,8 @@ package io.javabrains.reactiveworkshop;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Exercise6 {
 
@@ -10,14 +12,18 @@ public class Exercise6 {
 
         // Use ReactiveSources.unresponsiveFlux() and ReactiveSources.unresponsiveMono()
 
-        System.out.println("Waiting 5 seconds for the String variable:");
         // Get the value from the Mono into a String variable but give up after 5 seconds
-        String variable = ReactiveSources.unresponsiveMono().block(Duration.ofSeconds(5));
-        System.out.printf("Gave up after 5 seconds; String: %s\n", variable);
+        @SuppressWarnings("unused")
+        String variable = ReactiveSources.unresponsiveMono()
+                .block(Duration.ofSeconds(5));
 
         // Get the value from unresponsiveFlux into a String list but give up after 5 seconds
         // Come back and do this when you've learnt about operators!
-        // TODO: Write code here
+        @SuppressWarnings("all")
+        List<String> list = new ArrayList<>();
+        ReactiveSources.unresponsiveFlux()
+                .timeout(Duration.ofSeconds(5))
+                .subscribe(list::add);
 
         System.out.println("Press a key to end");
         System.in.read();
